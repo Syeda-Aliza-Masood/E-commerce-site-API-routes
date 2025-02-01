@@ -5,8 +5,17 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
+interface Product {
+  id: string;
+  image: string;
+  productname: string;
+  productdes: string;
+  discount: number;
+  rating: number;
+}
+
 const Home: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [cartModelVisibility, setCartModelVisibility] = useState<boolean>(false);
 
@@ -17,7 +26,7 @@ const Home: React.FC = () => {
         if (!res.ok) {
           throw new Error(`Failed to fetch data: ${res.statusText}`);
         }
-        const fetchedData = await res.json();
+        const fetchedData: Product[] = await res.json();
         setData(fetchedData);
       } catch (error) {
         console.error(error);
