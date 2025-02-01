@@ -1,6 +1,8 @@
 'use client';
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 
 const Home: React.FC = () => {
@@ -17,28 +19,23 @@ const Home: React.FC = () => {
         }
         const fetchedData = await res.json();
         setData(fetchedData);
-        setLoading(false);
       } catch (error) {
         console.error(error);
+      } finally {
         setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  const handleAddToCart = () => {
-    setCartModelVisibility(true);
-  };
-
-  const closeModel = () => {
-    setCartModelVisibility(false);
-  };
+  const handleAddToCart = () => setCartModelVisibility(true);
+  const closeModel = () => setCartModelVisibility(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-black to-slate-900 px-4">
       <Header />
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-old text-yellow-400">Welcome to Mock API Fetch Data Project</h1>
+        <h1 className="text-4xl font-bold text-yellow-400">Welcome to Mock API Fetch Data Project</h1>
         <p className="text-xl text-white mt-2 mb-4">Explore the product</p>
       </div>
       {loading && <p className="text-center text-yellow-400">Loading ...</p>}
@@ -50,10 +47,12 @@ const Home: React.FC = () => {
             className="bg-white shadow rounded-lg overflow-hidden transition-transform hover:scale-105 duration-300 max-w-xs mx-auto"
           >
             <div className="relative w-full h-56">
-              <img
+              <Image
                 src={item.image}
                 alt={item.productname}
-                className="w-full h-full object-contain rounded-t-lg bg-gray-100"
+                width={300}
+                height={200}
+                className="object-contain rounded-t-lg bg-gray-100 w-full h-full"
               />
               <div className="absolute top-2 left-2 bg-red-500 text-white py-1 px-3 text-xs font-semibold rounded-full shadow-md">
                 {item.discount} % OFF
@@ -90,9 +89,7 @@ const Home: React.FC = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded-lg w-96">
             <h2 className="text-2xl font-semibold text-slate-800 mb-4">Product Added To Cart</h2>
-            <p className="text-slate-600 mb-6">
-              You have added a product to your cart. Would you like to view your cart?
-            </p>
+            <p className="text-slate-600 mb-6">You have added a product to your cart. Would you like to view your cart?</p>
             <div className="flex space-x-4">
               <button
                 onClick={closeModel}
